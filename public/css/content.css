@@ -54,8 +54,6 @@
 #content #sidebar a.twitter { display:block; margin-top: 5em; }
 #content #sidebar .separator { color: gray; margin: 1.5em 0 1em 0; }
 
-#content #left-column { margin-right: 17em; }
-
 /* Online Version */
 
 #content .message {
@@ -134,3 +132,23 @@
 }
 #content #parser-download:hover { background-color: #006000; }
 #content #parser-download.disabled { color: #e0e0e0; background-color: gray; }
+
+/* CodeMirror Related CSS */
+.CodeMirror {
+  max-width: 612px;
+}
+
+#content .CodeMirror {
+  border: solid 1px #E7E7E7;
+}
+
+#content .CodeMirror pre {
+  padding: 0px 0px 0px 2px;
+  border: none;
+  background-color: transparent;
+}
+
+#content .CodeMirror-gutters {
+  border-right: 1px solid #E7E7E7;
+  background-color: #FFF;
+}

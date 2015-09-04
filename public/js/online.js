@@ -13,6 +13,8 @@ $(document).ready(function() {
   var oldOptionOptimize = null;
   var oldInput          = null;
 
+  var editor = null;
+
   function buildSizeAndTimeInfoHtml(title, size, time) {
     return $("<span/>", {
       "class": "size-and-time",
@@ -30,7 +32,7 @@ $(document).ready(function() {
   }
 
   function build() {
-    oldGrammar        = $("#grammar").val();
+    oldGrammar        = getGrammarContent();
     oldParserVar      = $("#parser-var").val();
     oldOptionCache    = $("#option-cache").is(":checked");
     oldOptionOptimize = $("#option-optimize").val();
@@ -46,7 +48,7 @@ $(document).ready(function() {
 
     try {
       var timeBefore = (new Date).getTime();
-      var parserSource = PEG.buildParser($("#grammar").val(), {
+      var parserSource = PEG.buildParser(getGrammarContent(), {
         cache:    $("#option-cache").is(":checked"),
         optimize: $("#option-optimize").val(),
         output:   "source"
@@ -60,7 +62,7 @@ $(document).ready(function() {
         .html("Parser built successfully.")
         .append(buildSizeAndTimeInfoHtml(
           "Parser build time and speed",
-          $("#grammar").val().length,
+          getGrammarContent().length,
           timeAfter - timeBefore
         ));
       $("#input").removeAttr("disabled");
@@ -119,7 +121,8 @@ $(document).ready(function() {
   }
 
   function scheduleBuildAndParse() {
-    var nothingChanged = $("#grammar").val() === oldGrammar
+
+    var nothingChanged = getGrammarContent() === oldGrammar
       && $("#parser-var").val() === oldParserVar
       && $("#option-cache").is(":checked") === oldOptionCache
       && $("#option-optimize").val() === oldOptionOptimize;
@@ -160,6 +163,16 @@ $(document).ready(function() {
      * This forces layout of the page so that the |#columns| table gets a chance
      * make itself smaller when the browser window shrinks.
      */
+    $(".CodeMirror").height("0px");
+    $(".CodeMirror").height(($(".CodeMirror").parent().parent().innerHeight() - 14) + "px");
+    $("#left-column").height("0px");    // needed for IE
+    $("#right-column").height("0px");   // needed for IE
+    $("#input").height("0px");
+
+    $("#left-column").height(($("#left-column").parent().innerHeight() - 2) + "px");     // needed for IE
+    $("#right-column").height(($("#right-column").parent().innerHeight() - 2) + "px");   // needed for IE
+
+    $(".CodeMirror").height(($(".CodeMirror").parent().parent().innerHeight() - 14) + "px");
     $("#left-column").height("0px");    // needed for IE
     $("#right-column").height("0px");   // needed for IE
     $("#grammar").height("0px");
@@ -171,7 +184,28 @@ $(document).ready(function() {
     $("#input").height(($("#input").parent().parent().innerHeight() - 14) + "px");
   }
 
-  $("#grammar, #parser-var, #option-cache, #option-optimize")
+  function initEditor() {
+    editor = CodeMirror.fromTextArea($("#grammar").get(0), {
+      lineNumbers: true,
+      mode: "pegjs",
+      lineWrapping: false
+    });
+    
+    editor.on("cursorActivity", scheduleBuildAndParse); // triggers when cursor or selection moves or any change is made
+    editor.on("focus", scheduleBuildAndParse);
+    editor.on("keydown", scheduleBuildAndParse);
+    editor.on("keypress", scheduleBuildAndParse);
+    editor.on("keyup", scheduleBuildAndParse);
+    editor.on("mousedown", scheduleBuildAndParse);
+    editor.on("mouseup", scheduleBuildAndParse);
+  }
+
+  function getGrammarContent() {
+    return editor.getValue();
+  }
+
+  //Removed #grammar
+  $("#parser-var, #option-cache, #option-optimize")
     .change(scheduleBuildAndParse)
     .mousedown(scheduleBuildAndParse)
     .mouseup(scheduleBuildAndParse)
@@ -197,7 +231,8 @@ $(document).ready(function() {
 
   $("#grammar, #parser-var, #option-cache, #option-optimize").removeAttr("disabled");
 
-  $("#grammar").focus();
-
+  initEditor();
+  editor.focus();
   buildAndParse();
+
 });
