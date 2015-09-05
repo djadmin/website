@@ -58,6 +58,9 @@
 
 /* Online Version */
 
+#content #left-column--online {
+  margin-right: 0px;
+}
 #content .message {
   border-radius: .5em; -moz-border-radius: .5em; padding: .5em 1em;
 }
@@ -134,3 +137,22 @@
 }
 #content #parser-download:hover { background-color: #006000; }
 #content #parser-download.disabled { color: #e0e0e0; background-color: gray; }
+
+/* CodeMirror Related CSS */
+.CodeMirror {
+  max-width: 612px;
+}
+
+#content .CodeMirror {
+  border: solid 1px #737373;
+}
+
+#content .CodeMirror pre {
+  padding: 0px 0px 0px 2px;
+  border: none;
+  background-color: transparent;
+}
+
+#content .CodeMirror-gutters {
+  background-color: #FFF;
+}
