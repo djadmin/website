@@ -121,7 +121,6 @@ $(document).ready(function() {
   }
 
   function scheduleBuildAndParse() {
-
     var nothingChanged = getGrammar() === oldGrammar
       && $("#parser-var").val() === oldParserVar
       && $("#option-cache").is(":checked") === oldOptionCache
@@ -163,27 +162,21 @@ $(document).ready(function() {
      * This forces layout of the page so that the |#columns| table gets a chance
      * make itself smaller when the browser window shrinks.
      */
+    $("#left-column").height("0px");    // needed for IE
+    $("#right-column").height("0px");   // needed for IE
     $(".CodeMirror").height("0px");
-    $(".CodeMirror").height(($(".CodeMirror").parent().parent().innerHeight() - 14) + "px");
-    $("#left-column").height("0px");    // needed for IE
-    $("#right-column").height("0px");   // needed for IE
     $("#input").height("0px");
 
     $("#left-column").height(($("#left-column").parent().innerHeight() - 2) + "px");     // needed for IE
     $("#right-column").height(($("#right-column").parent().innerHeight() - 2) + "px");   // needed for IE
-
     $(".CodeMirror").height(($(".CodeMirror").parent().parent().innerHeight() - 14) + "px");
-
-    $("#left-column").height("0px");    // needed for IE
-    $("#right-column").height("0px");   // needed for IE
-    $("#grammar").height("0px");
-    $("#input").height("0px");
-
-    $("#left-column").height(($("#left-column").parent().innerHeight() - 2) + "px");     // needed for IE
-    $("#right-column").height(($("#right-column").parent().innerHeight() - 2) + "px");   // needed for IE
-    $("#grammar").height(($("#grammar").parent().parent().innerHeight() - 14) + "px");
     $("#input").height(($("#input").parent().parent().innerHeight() - 14) + "px");
-  }
+
+/*    $("#left-column").height(($("#left-column").parent().innerHeight() - 2) + "px");     // needed for IE
+    $("#right-column").height(($("#right-column").parent().innerHeight() - 2) + "px");   // needed for IE
+    $(".CodeMirror").height(($(".CodeMirror").parent().parent().innerHeight() - 14) + "px");
+    $("#input").height(($("#input").parent().parent().innerHeight() - 14) + "px");
+*/  }
 
   function initEditor() {
     editor = CodeMirror.fromTextArea($("#grammar").get(0), {

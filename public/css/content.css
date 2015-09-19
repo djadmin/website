@@ -58,9 +58,11 @@
 
 /* Online Version */
 
-#content #left-column--online {
-  margin-right: 0px;
+.no-margin {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
+
 #content .message {
   border-radius: .5em; -moz-border-radius: .5em; padding: .5em 1em;
 }
@@ -93,7 +95,7 @@
 }
 #content h2.suggestion .step-title { margin-left: 2.5em; }
 
-#content textarea.code { width: 100%; height: 20em; font-family: "Lucida Console", fixed, monospace; }
+#content textarea.code { width: 100%; height: 20em; border: 1px solid gray; font-family: "Lucida Console", fixed, monospace; }
 
 #content .textarea-wrapper { padding-right: 6px; }
 
@@ -104,6 +106,20 @@
 #content table.column td { vertical-align: top; }
 /* Browsers will enlarge the |.content-height| cells to fit the contents. */
 #content table.column td.content-height { height: 1px; }
+
+.CodeMirror {
+  max-width: 612px;
+}
+
+#content .CodeMirror {
+  border: 1px solid gray;
+}
+
+#content .CodeMirror pre {
+  overflow: visible;
+  padding: 0; border: none;
+  background-color: inherit;
+}
 
 #content #output-header {
   margin: 1.25em 0 0 0; border: none; padding: .25em 1.2em .25em 1.2em;
@@ -137,22 +153,3 @@
 }
 #content #parser-download:hover { background-color: #006000; }
 #content #parser-download.disabled { color: #e0e0e0; background-color: gray; }
-
-/* CodeMirror Related CSS */
-.CodeMirror {
-  max-width: 612px;
-}
-
-#content .CodeMirror {
-  border: solid 1px #737373;
-}
-
-#content .CodeMirror pre {
-  padding: 0px 0px 0px 2px;
-  border: none;
-  background-color: transparent;
-}
-
-#content .CodeMirror-gutters {
-  background-color: #FFF;
-}
