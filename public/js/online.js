@@ -171,28 +171,15 @@ $(document).ready(function() {
     $("#right-column").height(($("#right-column").parent().innerHeight() - 2) + "px");   // needed for IE
     $(".CodeMirror").height(($(".CodeMirror").parent().parent().innerHeight() - 14) + "px");
     $("#input").height(($("#input").parent().parent().innerHeight() - 14) + "px");
-
-/*    $("#left-column").height(($("#left-column").parent().innerHeight() - 2) + "px");     // needed for IE
-    $("#right-column").height(($("#right-column").parent().innerHeight() - 2) + "px");   // needed for IE
-    $(".CodeMirror").height(($(".CodeMirror").parent().parent().innerHeight() - 14) + "px");
-    $("#input").height(($("#input").parent().parent().innerHeight() - 14) + "px");
-*/  }
+  }
 
   function initEditor() {
     editor = CodeMirror.fromTextArea($("#grammar").get(0), {
       lineNumbers: true,
-      mode: "pegjs",
-      lineWrapping: false,
-      autoCloseBrackets: true
+      mode: "pegjs"
     });
 
-    editor.on("cursorActivity", scheduleBuildAndParse); // triggers when cursor moves, selection or any change is made
-    editor.on("focus", scheduleBuildAndParse);
-    editor.on("keydown", scheduleBuildAndParse);
-    editor.on("keypress", scheduleBuildAndParse);
-    editor.on("keyup", scheduleBuildAndParse);
-    editor.on("mousedown", scheduleBuildAndParse);
-    editor.on("mouseup", scheduleBuildAndParse);
+    editor.on("change", scheduleBuildAndParse);
   }
 
   function getGrammar() {
@@ -224,9 +211,8 @@ $(document).ready(function() {
   $("#content").show();
 
   $("#grammar, #parser-var, #option-cache, #option-optimize").removeAttr("disabled");
-  // Initialize Editor
+  
   initEditor();
   editor.focus();
   buildAndParse();
-
 });
